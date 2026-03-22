@@ -106,7 +106,7 @@ def test_generate_data_accepts_any_data_model_interface(
         num_records=10,
     )
 
-    file_path = Path(Path.cwd() / "fake_data.csv")
+    file_path = Path.cwd() / "fake_data.csv"
     assert file_path.exists()
     df = pl.read_csv(file_path)
     assert df.shape == (10, len(OrderRecord.fields()))
