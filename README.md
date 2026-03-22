@@ -2,6 +2,8 @@
 
 A lightweight Python library for generating synthetic fake data, built on [Mimesis](https://mimesis.name/) and [Polars](https://pola.rs/). Define custom data models and export thousands of records to DataFrames or CSV files.
 
+**API Documentation:** [https://willmorejg.github.io/phantom_data/](https://willmorejg.github.io/phantom_data/)
+
 ## Features
 
 - **Extensible model interface** — define any data shape by subclassing `DataModelInterface`
