@@ -20,7 +20,7 @@ from mimesis import Generic
 from mimesis.locales import Locale
 
 from .generate_model_interface import DataModelInterface
-from .person_model import Person
+from .person_data_generator import PersonDataGenerator
 
 
 class DataGenerator:
@@ -32,23 +32,30 @@ class DataGenerator:
         self.working_path = Path.cwd()
 
     def generate_data(
-        self, model_class: type[DataModelInterface] = Person, num_records: int = 1000
+        self,
+        model_class: type[DataModelInterface] = PersonDataGenerator,
+        num_records: int = 1000,
+    ) -> list[DataModelInterface]:
+        """Generate a list of data model instances with fake data."""
+        return [model_class.generate_data(self.fake) for _ in range(num_records)]
+
+    def generate_dataframe(
+        self,
+        model_class: type[DataModelInterface] = PersonDataGenerator,
+        num_records: int = 1000,
     ) -> pl.DataFrame:
         """Generate a Polars DataFrame with fake data."""
-        data = [
-            model_class.generate_data(self.fake).model_dump(mode="json")
-            for _ in range(num_records)
-        ]
-        return pl.DataFrame(data)
+        data = self.generate_data(model_class, num_records)
+        return pl.DataFrame([d.model_dump(mode="json") for d in data])
 
     def generate_csv(
         self,
-        model_class: type[DataModelInterface] = Person,
+        model_class: type[DataModelInterface] = PersonDataGenerator,
         num_records: int = 1000,
         file_path: str = "",
     ) -> None:
         """Generate a CSV file with fake data."""
         if not file_path:
             file_path = str(self.working_path / "fake_data.csv")
-        df: pl.DataFrame = self.generate_data(model_class, num_records)
+        df: pl.DataFrame = self.generate_dataframe(model_class, num_records)
         df.write_csv(file_path)

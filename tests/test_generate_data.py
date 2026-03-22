@@ -20,7 +20,7 @@ import pytest
 import polars as pl
 from mimesis import Generic
 
-from mods import DataGenerator, DataModelInterface, Person
+from mods import DataGenerator, DataModelInterface, PersonDataGenerator
 
 
 class OrderRecord(DataModelInterface):
@@ -47,8 +47,18 @@ def test_generate_data(
     """Test the generate_data method of DataGenerator."""
     num_records = 10
     df = data_generator.generate_data(num_records=num_records)
-    assert df.shape == (num_records, len(Person.fields()))
-    assert set(df.columns) == set(Person.fields())
+    assert len(df) == num_records
+    assert all(isinstance(record, PersonDataGenerator) for record in df)
+
+
+def test_generate_dataframe(
+    data_generator: DataGenerator,
+):  # pylint: disable=redefined-outer-name
+    """Test the generate_dataframe method of DataGenerator."""
+    num_records = 10
+    df = data_generator.generate_dataframe(num_records=num_records)
+    assert df.shape == (num_records, len(PersonDataGenerator.fields()))
+    assert set(df.columns) == set(PersonDataGenerator.fields())
 
 
 def test_generate_csv(
@@ -61,8 +71,8 @@ def test_generate_csv(
     data_generator.generate_csv(num_records=num_records, file_path=str(file_path))
     assert file_path.exists()
     df = pl.read_csv(file_path)
-    assert df.shape == (num_records, len(Person.fields()))
-    assert set(df.columns) == set(Person.fields())
+    assert df.shape == (num_records, len(PersonDataGenerator.fields()))
+    assert set(df.columns) == set(PersonDataGenerator.fields())
 
 
 def test_generate_data_accepts_any_data_model_interface(
@@ -71,7 +81,9 @@ def test_generate_data_accepts_any_data_model_interface(
     """Test that DataGenerator can use any compatible data model."""
     num_records = 500_000
 
-    df = data_generator.generate_data(model_class=OrderRecord, num_records=num_records)
+    df = data_generator.generate_dataframe(
+        model_class=OrderRecord, num_records=num_records
+    )
 
     assert df.shape == (num_records, len(OrderRecord.fields()))
     assert set(df.columns) == set(OrderRecord.fields())
@@ -81,3 +93,23 @@ def test_generate_data_accepts_any_data_model_interface(
         num_records=num_records,
         file_path="./tests/output/order_records.csv",
     )
+
+    file_path = Path("./tests/output/order_records.csv")
+    assert file_path.exists()
+    df = pl.read_csv(file_path)
+    assert df.shape == (num_records, len(OrderRecord.fields()))
+    assert set(df.columns) == set(OrderRecord.fields())
+
+    # added for coverage completeness - verify that the file was created and has the expected number of lines
+    data_generator.generate_csv(
+        model_class=OrderRecord,
+        num_records=10,
+    )
+
+    file_path = Path(Path.cwd() / "fake_data.csv")
+    assert file_path.exists()
+    df = pl.read_csv(file_path)
+    assert df.shape == (10, len(OrderRecord.fields()))
+    assert set(df.columns) == set(OrderRecord.fields())
+
+    file_path.unlink()  # Clean up the generated file after the test
