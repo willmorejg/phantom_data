@@ -14,6 +14,7 @@
 """Module for data generation using Faker and Polars."""
 from .generate_data import DataGenerator
 from .generate_model_interface import DataModelInterface
+from .person_data_generator import PersonDataGenerator
 from .person_model import Person
 
-__all__ = ["DataGenerator", "DataModelInterface", "Person"]
+__all__ = ["DataGenerator", "DataModelInterface", "Person", "PersonDataGenerator"]

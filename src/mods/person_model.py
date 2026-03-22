@@ -13,11 +13,11 @@
 # limitations under the License.
 """A Person model class."""
 
-from mimesis import Generic, Gender
-from .generate_model_interface import DataModelInterface
+from mimesis import Gender
+from sqlmodel import SQLModel
 
 
-class Person(DataModelInterface):
+class Person(SQLModel):
     """A simple Person model class."""
 
     name: str
@@ -26,17 +26,3 @@ class Person(DataModelInterface):
     birthday: str
     email: str
     password: str
-
-    @classmethod
-    def generate_data(cls, fake: Generic) -> "Person":
-        """Populate the Person model with fake data."""
-        gender: Gender = Gender(fake.choice([Gender.MALE.value, Gender.FEMALE.value]))
-
-        return cls(
-            name=fake.person.full_name(gender=gender),
-            gender=gender,
-            address=fake.address.address(),
-            birthday=fake.person.birthdate().isoformat(),
-            email=fake.person.email(),
-            password=fake.person.password(),
-        )
