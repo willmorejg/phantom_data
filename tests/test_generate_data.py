@@ -101,15 +101,19 @@ def test_generate_data_accepts_any_data_model_interface(
     assert set(df.columns) == set(OrderRecord.fields())
 
     # added for coverage completeness - verify that the file was created and has the expected number of lines
+    file_path = Path.cwd() / "fake_data.csv"
+    if file_path.exists():
+        file_path.unlink()
+
     data_generator.generate_csv(
         model_class=OrderRecord,
         num_records=10,
     )
-
-    file_path = Path.cwd() / "fake_data.csv"
-    assert file_path.exists()
-    df = pl.read_csv(file_path)
-    assert df.shape == (10, len(OrderRecord.fields()))
-    assert set(df.columns) == set(OrderRecord.fields())
-
-    file_path.unlink()  # Clean up the generated file after the test
+    try:
+        assert file_path.exists()
+        df = pl.read_csv(file_path)
+        assert df.shape == (10, len(OrderRecord.fields()))
+        assert set(df.columns) == set(OrderRecord.fields())
+    finally:
+        if file_path.exists():
+            file_path.unlink()  # Clean up the generated file after the test

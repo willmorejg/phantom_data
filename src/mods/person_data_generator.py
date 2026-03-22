@@ -20,7 +20,24 @@ from .person_model import Person
 
 
 class PersonDataGenerator(Person, DataModelInterface):
-    """Generates fake Person records."""
+    """Generates fake :class:`Person` records.
+
+    This class mixes the core :class:`Person` data model with the
+    :class:`DataModelInterface` contract so that it can act both as a
+    concrete person entity and as a factory for producing synthetic data.
+
+    Inheritance from :class:`Person` provides the underlying fields and
+    validation for a single person record. Inheritance from
+    :class:`DataModelInterface` defines the API (for example, the
+    :meth:`generate_data` class method) that all data generators in this
+    module are expected to implement.
+
+    Keeping data generation in this separate subclass preserves a clear
+    separation of concerns: :class:`Person` remains a plain data model that
+    can be used without any dependency on fake data utilities, while
+    :class:`PersonDataGenerator` is responsible for creating realistic test
+    or seed data for that model.
+    """
 
     @classmethod
     def generate_data(cls, fake: Generic) -> "PersonDataGenerator":
