@@ -164,3 +164,4 @@ pyrightconfig.json
 *.sqlite3
 *.sqlite3-journal
 tests/output/*
+docs/*
