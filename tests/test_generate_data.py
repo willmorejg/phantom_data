@@ -88,13 +88,13 @@ def test_generate_data_accepts_any_data_model_interface(
     assert df.shape == (num_records, len(OrderRecord.fields()))
     assert set(df.columns) == set(OrderRecord.fields())
 
+    file_path = Path("./tests/output/order_records.csv")
     data_generator.generate_csv(
         model_class=OrderRecord,
         num_records=num_records,
-        file_path="./tests/output/order_records.csv",
+        file_path=str(file_path),
     )
 
-    file_path = Path("./tests/output/order_records.csv")
     assert file_path.exists()
     df = pl.read_csv(file_path)
     assert df.shape == (num_records, len(OrderRecord.fields()))
