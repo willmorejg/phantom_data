@@ -14,5 +14,9 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.analysis.extraPaths": ["src"]
+    "python.analysis.extraPaths": ["src"],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "willmorejg",
+        "projectKey": "willmorejg_phantom_data"
+    }
 }
