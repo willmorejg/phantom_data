@@ -8,6 +8,9 @@ built on `Mimesis <https://mimesis.name/>`_ and `Polars <https://pola.rs/>`_.
    :maxdepth: 2
    :caption: Contents
 
+   api/address
+   api/address_data_generator
    api/data_generator
    api/data_model_interface
    api/person
+   api/person_data_generator
