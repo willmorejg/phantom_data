@@ -21,6 +21,7 @@ import polars as pl
 from mimesis import Generic
 
 from mods import DataGenerator, DataModelInterface, PersonDataGenerator
+from mods.address_data_generator import AddressDataGenerator
 
 
 class OrderRecord(DataModelInterface):
@@ -73,6 +74,24 @@ def test_generate_csv(
     df = pl.read_csv(file_path)
     assert df.shape == (num_records, len(PersonDataGenerator.fields()))
     assert set(df.columns) == set(PersonDataGenerator.fields())
+
+
+def test_generate_address_csv(
+    data_generator: DataGenerator, tmp_path: Path = Path("./tests/output")
+):  # pylint: disable=redefined-outer-name
+    """Test the generate_csv method of DataGenerator for AddressDataGenerator."""
+
+    num_records = 100
+    file_path = tmp_path / "test_fake_addr_data.csv"
+    data_generator.generate_csv(
+        model_class=AddressDataGenerator,
+        num_records=num_records,
+        file_path=str(file_path),
+    )
+    assert file_path.exists()
+    df = pl.read_csv(file_path)
+    assert df.shape == (num_records, len(AddressDataGenerator.fields()))
+    assert set(df.columns) == set(AddressDataGenerator.fields())
 
 
 def test_generate_data_accepts_any_data_model_interface(
