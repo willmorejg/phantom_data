@@ -30,3 +30,7 @@ class DataModelInterface(SQLModel):
     def fields(cls) -> list[str]:
         """Convert the data model instance to a list of field names."""
         return list(cls.model_fields.keys())
+
+    def model(self) -> dict:
+        """Convert the data model instance to a dictionary."""
+        return self.model_dump(mode="json")
