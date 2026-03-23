@@ -47,6 +47,24 @@ class DataGenerator:
         """
         return [model_class.generate_data(self.fake) for _ in range(num_records)]
 
+    def generate_data_model_list(
+        self,
+        model_class: type[DataModelInterface] = PersonDataGenerator,
+        num_records: int = 1000,
+    ) -> list[dict]:
+        """Generate a list of data model instances with fake data.
+
+        Args:
+            model_class: The data model class to generate instances of.
+            num_records: The number of records to generate.
+
+        Returns:
+            A list of dictionaries representing the data model instances populated with fake data.
+        """
+        return [
+            model_class.generate_data(self.fake).model() for _ in range(num_records)
+        ]
+
     def generate_dataframe(
         self,
         model_class: type[DataModelInterface] = PersonDataGenerator,

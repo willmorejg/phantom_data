@@ -50,6 +50,20 @@ def test_generate_data(
     df = data_generator.generate_data(num_records=num_records)
     assert len(df) == num_records
     assert all(isinstance(record, PersonDataGenerator) for record in df)
+    print(df[0].model())  # Print the first record for visual verification
+    model_list = [record.model() for record in df]
+    assert all(isinstance(model, dict) for model in model_list)
+
+
+def test_generate_data_model_list(
+    data_generator: DataGenerator,
+):  # pylint: disable=redefined-outer-name
+    """Test the generate_data_model_list method of DataGenerator."""
+    num_records = 10
+    df = data_generator.generate_data_model_list(num_records=num_records)
+    assert len(df) == num_records
+    assert all(isinstance(record, dict) for record in df)
+    print(df[0])  # Print the first record for visual verification
 
 
 def test_generate_dataframe(
