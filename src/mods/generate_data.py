@@ -61,9 +61,8 @@ class DataGenerator:
         Returns:
             A list of dictionaries representing the data model instances populated with fake data.
         """
-        return [
-            model_class.generate_data(self.fake).model() for _ in range(num_records)
-        ]
+        data = self.generate_data(model_class, num_records)
+        return [d.model_dump(mode="json") for d in data]
 
     def generate_dataframe(
         self,
