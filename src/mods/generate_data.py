@@ -52,7 +52,7 @@ class DataGenerator:
         model_class: type[DataModelInterface] = PersonDataGenerator,
         num_records: int = 1000,
     ) -> list[dict]:
-        """Generate a list of data model instances with fake data.
+        """Generate a list of serialized dictionaries with fake data.
 
         Args:
             model_class: The data model class to generate instances of.
