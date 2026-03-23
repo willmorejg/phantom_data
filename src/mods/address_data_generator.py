@@ -43,12 +43,13 @@ class AddressDataGenerator(Address, DataModelInterface):
         address_line_1 = f"{fake.address.street_number()} {fake.address.street_name()} {fake.address.street_suffix()}"
         address_line_2 = (
             fake.address.secondary_address()
-            if fake.random.choice([True, False, False, False, False])
+            if fake.random.random()
+            < 0.2  # 20% chance of having a secondary address line
             else ""
         )
         zip_code_plus4 = (
             str(fake.numeric.integer_number(start=1, end=9999)).zfill(4)
-            if fake.random.choice([True, True, True, True, False])
+            if fake.random.random() < 0.8  # 80% chance of having a ZIP+4
             else ""
         )
         return cls(
