@@ -14,6 +14,7 @@
 """Interface for generating fake data models."""
 
 from abc import abstractmethod
+
 from mimesis import Generic
 from sqlmodel import SQLModel
 
