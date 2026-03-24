@@ -14,6 +14,7 @@
 """Data generator for the Address model."""
 
 from address_model import Address
+
 from mods import DataModelInterface
 
 

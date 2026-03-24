@@ -14,8 +14,8 @@
 """Data generator for the Person model."""
 
 from mimesis import Gender, Generic
-
 from person_model import Person
+
 from mods import DataModelInterface
 
 

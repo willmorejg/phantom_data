@@ -16,12 +16,11 @@
 from pathlib import Path
 from uuid import uuid4
 
-import pytest
 import polars as pl
-from mimesis import Generic
-
-from person_data_generator import PersonDataGenerator
+import pytest
 from address_data_generator import AddressDataGenerator
+from mimesis import Generic
+from person_data_generator import PersonDataGenerator
 
 from mods import DataGenerator, DataModelInterface
 
@@ -86,7 +85,6 @@ def test_generate_csv(
     data_generator: DataGenerator, tmp_path: Path = Path("./tests/output")
 ):  # pylint: disable=redefined-outer-name
     """Test the generate_csv method of DataGenerator."""
-
     num_records = 100
     file_path = tmp_path / "test_fake_data.csv"
     data_generator.generate_csv(
@@ -104,7 +102,6 @@ def test_generate_address_csv(
     data_generator: DataGenerator, tmp_path: Path = Path("./tests/output")
 ):  # pylint: disable=redefined-outer-name
     """Test the generate_csv method of DataGenerator for AddressDataGenerator."""
-
     num_records = 100
     file_path = tmp_path / "test_fake_addr_data.csv"
     data_generator.generate_csv(
