@@ -13,8 +13,9 @@
 # limitations under the License.
 """Data generator for the Address model."""
 
-from .generate_model_interface import DataModelInterface
-from .address_model import Address
+from address_model import Address
+
+from mods import DataModelInterface
 
 
 class AddressDataGenerator(Address, DataModelInterface):

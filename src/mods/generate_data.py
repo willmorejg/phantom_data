@@ -20,7 +20,6 @@ from mimesis import Generic
 from mimesis.locales import Locale
 
 from .generate_model_interface import DataModelInterface
-from .person_data_generator import PersonDataGenerator
 
 
 class DataGenerator:
@@ -33,7 +32,7 @@ class DataGenerator:
 
     def generate_data(
         self,
-        model_class: type[DataModelInterface] = PersonDataGenerator,
+        model_class: type[DataModelInterface],
         num_records: int = 1000,
     ) -> list[DataModelInterface]:
         """Generate a list of data model instances with fake data.
@@ -49,7 +48,7 @@ class DataGenerator:
 
     def generate_data_model_list(
         self,
-        model_class: type[DataModelInterface] = PersonDataGenerator,
+        model_class: type[DataModelInterface],
         num_records: int = 1000,
     ) -> list[dict]:
         """Generate a list of serialized dictionaries with fake data.
@@ -66,7 +65,7 @@ class DataGenerator:
 
     def generate_dataframe(
         self,
-        model_class: type[DataModelInterface] = PersonDataGenerator,
+        model_class: type[DataModelInterface],
         num_records: int = 1000,
     ) -> pl.DataFrame:
         """Generate a Polars DataFrame with fake data."""
@@ -75,7 +74,7 @@ class DataGenerator:
 
     def generate_csv(
         self,
-        model_class: type[DataModelInterface] = PersonDataGenerator,
+        model_class: type[DataModelInterface],
         num_records: int = 1000,
         file_path: str = "",
     ) -> None:
