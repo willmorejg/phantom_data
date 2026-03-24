@@ -15,8 +15,8 @@
 
 from mimesis import Gender, Generic
 
-from .generate_model_interface import DataModelInterface
-from .person_model import Person
+from person_model import Person
+from mods import DataModelInterface
 
 
 class PersonDataGenerator(Person, DataModelInterface):

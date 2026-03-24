@@ -20,8 +20,10 @@ import pytest
 import polars as pl
 from mimesis import Generic
 
-from mods import DataGenerator, DataModelInterface, PersonDataGenerator
-from mods.address_data_generator import AddressDataGenerator
+from person_data_generator import PersonDataGenerator
+from address_data_generator import AddressDataGenerator
+
+from mods import DataGenerator, DataModelInterface
 
 
 class OrderRecord(DataModelInterface):
@@ -47,7 +49,9 @@ def test_generate_data(
 ):  # pylint: disable=redefined-outer-name
     """Test the generate_data method of DataGenerator."""
     num_records = 10
-    df = data_generator.generate_data(num_records=num_records)
+    df = data_generator.generate_data(
+        num_records=num_records, model_class=PersonDataGenerator
+    )
     assert len(df) == num_records
     assert all(isinstance(record, PersonDataGenerator) for record in df)
     model_list = [record.model() for record in df]
@@ -59,7 +63,9 @@ def test_generate_data_model_list(
 ):  # pylint: disable=redefined-outer-name
     """Test the generate_data_model_list method of DataGenerator."""
     num_records = 10
-    df = data_generator.generate_data_model_list(num_records=num_records)
+    df = data_generator.generate_data_model_list(
+        num_records=num_records, model_class=PersonDataGenerator
+    )
     assert len(df) == num_records
     assert all(isinstance(record, dict) for record in df)
 
@@ -69,7 +75,9 @@ def test_generate_dataframe(
 ):  # pylint: disable=redefined-outer-name
     """Test the generate_dataframe method of DataGenerator."""
     num_records = 10
-    df = data_generator.generate_dataframe(num_records=num_records)
+    df = data_generator.generate_dataframe(
+        num_records=num_records, model_class=PersonDataGenerator
+    )
     assert df.shape == (num_records, len(PersonDataGenerator.fields()))
     assert set(df.columns) == set(PersonDataGenerator.fields())
 
@@ -81,7 +89,11 @@ def test_generate_csv(
 
     num_records = 100
     file_path = tmp_path / "test_fake_data.csv"
-    data_generator.generate_csv(num_records=num_records, file_path=str(file_path))
+    data_generator.generate_csv(
+        model_class=PersonDataGenerator,
+        num_records=num_records,
+        file_path=str(file_path),
+    )
     assert file_path.exists()
     df = pl.read_csv(file_path)
     assert df.shape == (num_records, len(PersonDataGenerator.fields()))
